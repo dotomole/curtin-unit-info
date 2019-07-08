@@ -1,13 +1,18 @@
+//dotomole - 8/7/19
+//Parses .dsv files into Unit objects
+//and then serializes them to create a database
 import java.io.*;
 import java.util.concurrent.TimeUnit;
 public class DsvToObj
 {
     public static void main(String[] args) 
     {
+        double percentage, perRd;
+        Unit unit = null;
+
         //Directories and make serialized folder
         File cwd = new File(System.getProperty("user.dir"));
         String dir = cwd.getParentFile().getParentFile().toString();
-
         final int FILES = new File(dir+"\\Data\\raw\\dsv\\").list().length;
 
         File serDataFold = new File(dir+"\\Data\\SerializedData");
@@ -15,25 +20,23 @@ public class DsvToObj
         {
             serDataFold.mkdir();
         }
-        double percentage, perRd;
 
         System.out.println("SERIALIZING DATABASE:");
-        Unit unit = null;
         long startTime = System.nanoTime();
 
         for(int i = 1; i <= FILES; i++)
         {
             percentage = ((double)i/3503*100);
             perRd = (double)Math.round(percentage*1000000) / 1000000;
-
             System.out.print("\r"+perRd+"%");
 
             String filename = dir+"\\Data\\raw\\dsv\\"+i+".dsv";
             FileInputStream fileStrm = null;
             InputStreamReader rdr;
             BufferedReader bufRdr;
+
             String st = "";
-            String prereq = ""; //nothing by default
+            String prereq = ""; 
             String preLeads = "";
             try
             {
@@ -41,14 +44,13 @@ public class DsvToObj
                 rdr = new InputStreamReader(fileStrm);
                 bufRdr = new BufferedReader(rdr);
 
-                //Reads file into string (only one like so...)
+                //Reads file into string (only one line so...)
                 st = bufRdr.readLine();
 
                 String[] unitLeads = st.split("UNITLEADS\\$");
                 String[] info = st.split("\\$");
-                //System.out.println(i+" "+info.length);
 
-                // //if there ARE UTLT's then get 'em
+                //Get all unit leads
                 try
                 {
                     preLeads = unitLeads[1].replace("$", "\n");                     
@@ -77,24 +79,13 @@ public class DsvToObj
                     System.out.println("Error initializing stream");
                 }
                 fileStrm.close(); 
-                //System.out.println(unit.toString());
-
             }
 
             catch (IOException e)
             {
-                if (fileStrm != null)
-                {
-                    try
-                    {
-                        fileStrm.close();
-                    }
-                    catch (IOException ex2){}
-                }
-                System.out.println("Error in file processing: " + e.getMessage());      
+                System.out.println("Error initializing stream");
             }   
         }
-
         long endTime = System.nanoTime();
         System.out.println("\nTIME ELAPSED: "+(endTime-startTime)/1000000000+" seconds");
     }

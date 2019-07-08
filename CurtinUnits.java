@@ -1,3 +1,4 @@
+//dotomole - 8/7/19
 import java.io.*;
 import java.util.*;
 
@@ -14,7 +15,7 @@ public class CurtinUnits
         String input = "", input2 = "";
         int found = 0, input3;
         boolean exit = false;
-        String[] foundArr; //buffer
+        String[] foundArr;
         Unit foundUnit;
 
         Scanner sc = new Scanner(System.in);
@@ -30,7 +31,7 @@ public class CurtinUnits
         while (!exit)
         {
             found = 0;
-            foundArr = new String[4000];
+            foundArr = new String[4000];//buffer
             System.out.print("\nSearch units (by title):> ");
             input = sc.nextLine();
 
@@ -89,8 +90,8 @@ public class CurtinUnits
                 // Read objects
                 Unit unit = (Unit) oi.readObject();
 
+                //put each obj in hashmap
                 unitsHM.put(unit.getTitle(), unit);
-                // System.out.println(unit.toString());
 
                 oi.close();
                 fi.close(); 
@@ -105,7 +106,6 @@ public class CurtinUnits
             } 
             catch (ClassNotFoundException e) 
             {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }       

@@ -1,3 +1,5 @@
+#dotomole - 8/7/19
+#Html scrape, to dsv creation, all done here
 from bs4 import BeautifulSoup
 import re
 import os
@@ -78,7 +80,7 @@ def rawToDsvP1():
         if not creditFound:
             dsvStr += 'N/A'+'$'
 
-        #Contact hrs - added fix for online classes            
+        #Contact hrs           
         contactFound = False
         dsvStr += "CONTACT"+"$"
         for vals in soup.find_all('th'):
@@ -121,20 +123,14 @@ def rawToDsvP1():
         sys.stdout.write("\r%f%%" % float((i/number_files)*100))
         sys.stdout.flush()
 
-#OBSOLETE as converted to Java (UnitLeads.java) 
-#it reduced time from ~20 mins to ~12 mins
-#Also tried it in C and was slower? :(
 def rawToDsvP2():
-        #checks ALL other units if pre-req of that (gonna take ages)
+        #checks ALL other units if pre-req of that
         #Eg. OOPD searches all units that require OOPD as prereq, ie UCP, DSA
-        #reads current dsv from p1, checks area of school and only
-        #searches from within that school for UTLT and appends file
 
         for i in range(1, number_files+1):
             fw = open(dsv_dir+"\\"+str(i)+".dsv", "w", encoding='utf-8')
             dsvI = str(dsvStrArr[i-1]).split("$")
             unitNameI = dsvI[1]
-            #print(i)
 
             dsvStr = dsvStrArr[i-1]
             #UNITS TO LEAD TO (main emphasis of this program)
