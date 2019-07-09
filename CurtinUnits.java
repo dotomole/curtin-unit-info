@@ -1,12 +1,9 @@
-//dotomole - 8/7/19
+//dotomole - 9/7/19
 import java.io.*;
 import java.util.*;
 
 public class CurtinUnits
 {
-    static final String dir = System.getProperty("user.dir");
-    static final int FILES = new File(dir+"\\Data\\SerializedData\\").list().length;
-
     //Big ol hashmap
     static HashMap<String,Unit> unitsHM = new HashMap<String,Unit>();
 
@@ -80,11 +77,25 @@ public class CurtinUnits
     //Creates Hash map from Serialized objects
     public static void createHashMap()
     {
+        String dir = System.getProperty("user.dir");
+        String os = System.getProperty("os.name");
+        int FILES;
+
+        if (os.contains("Windows"))
+            FILES = new File(dir+"\\Data\\SerializedData\\").listFiles().length;
+        else
+            FILES = new File(dir+"/Data/SerializedData/").listFiles().length;
+
         for(int i = 1; i <= FILES; i++)
         {
             try 
             {
-                FileInputStream fi = new FileInputStream(new File(dir+"\\Data\\SerializedData\\"+i+".curtin"));
+                FileInputStream fi;
+                if (os.contains("Windows"))
+                    fi = new FileInputStream(new File(dir+"\\Data\\SerializedData\\"+i+".curtin"));
+                else
+                    fi = new FileInputStream(new File(dir+"/Data/SerializedData/"+i+".curtin"));
+                
                 ObjectInputStream oi = new ObjectInputStream(fi);
 
                 // Read objects
