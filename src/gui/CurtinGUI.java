@@ -60,6 +60,8 @@ public class CurtinGUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+        String os = System.getProperty("os.name");
+
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setTitle("Curtin Unit Search");
@@ -74,7 +76,14 @@ public class CurtinGUI {
 		
 		JLabel labelCurtin = new JLabel("Curtin Unit Search");
 		labelCurtin.setBounds(159, 25, 278, 45);
-		labelCurtin.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 34));
+//		labelCurtin.setFont(new Font("MS Reference Sans Serif", Font.BOLD | Font.ITALIC, 27));
+
+		if (os.contains("Windows"))
+			labelCurtin.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 34));
+		else
+			labelCurtin.setFont(new Font("MS Reference Sans Serif", Font.BOLD | Font.ITALIC, 27));
+
+		
 		frame.getContentPane().add(labelCurtin);
 		
 		list = new JList();
@@ -182,7 +191,6 @@ public class CurtinGUI {
     private void createHashMap()
     {
         String dir = System.getProperty("user.dir");
-        System.out.println(dir);
         String os = System.getProperty("os.name");
         int FILES;
 
