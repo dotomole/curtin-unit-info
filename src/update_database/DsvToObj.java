@@ -9,13 +9,27 @@ public class DsvToObj
     {
         double percentage, perRd;
         Unit unit = null;
+        File serDataFold;
 
         //Directories and make serialized folder
         File cwd = new File(System.getProperty("user.dir"));
-        String dir = cwd.getParentFile().getParentFile().toString();
-        final int FILES = new File(dir+"\\Data\\raw\\dsv\\").list().length;
+        String dir = cwd.getParentFile().toString();
+        String os = System.getProperty("os.name");
+        String filename;
+        int FILES;
 
-        File serDataFold = new File(dir+"\\Data\\SerializedData");
+        if (os.contains("Windows"))
+        {
+            FILES = new File(dir+"\\raw\\dsv\\").listFiles().length;
+	        serDataFold = new File(dir+"\\SerializedData\\");
+	    }
+        else
+        {
+            FILES = new File(dir+"/raw/dsv/").listFiles().length;
+	        serDataFold = new File(dir+"/SerializedData/");
+	    }
+	    
+        //Makes SerializedData folder
         if (!serDataFold.exists())
         {
             serDataFold.mkdir();
@@ -30,7 +44,11 @@ public class DsvToObj
             perRd = (double)Math.round(percentage*1000000) / 1000000;
             System.out.print("\r"+perRd+"%");
 
-            String filename = dir+"\\Data\\raw\\dsv\\"+i+".dsv";
+        	if (os.contains("Windows"))
+            	filename = dir+"\\raw\\dsv\\"+i+".dsv";
+            else
+            	filename = dir+"/raw/dsv/"+i+".dsv";
+
             FileInputStream fileStrm = null;
             InputStreamReader rdr;
             BufferedReader bufRdr;
@@ -54,7 +72,7 @@ public class DsvToObj
                 try
                 {
                     preLeads = unitLeads[1].replace("$", "\n");                     
-                    System.out.println(preLeads);
+                    //System.out.println(preLeads);
                 }
                 catch (ArrayIndexOutOfBoundsException e)
                 {}
@@ -65,7 +83,7 @@ public class DsvToObj
                 try 
                 {
                     //.curtin because - haha
-                    FileOutputStream f = new FileOutputStream(new File(dir+"\\Data\\SerializedData\\"+i+".curtin"));
+                    FileOutputStream f = new FileOutputStream(new File(dir+"\\SerializedData\\"+i+".curtin"));
                     ObjectOutputStream o = new ObjectOutputStream(f);
 
                     // Write unit object to file

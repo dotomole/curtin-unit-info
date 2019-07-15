@@ -8,19 +8,13 @@ import unit_indexes
 import sys
 import time
 
-headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
 cur_dir = os.getcwd()
 src_dir = os.path.dirname(cur_dir)
-main_dir = os.path.dirname(src_dir)
-data_dir = os.path.join(main_dir, r'Data')
-raw_dir = os.path.join(data_dir, r'raw')
+raw_dir = os.path.join(src_dir, r'raw')
 dsv_dir = os.path.join(raw_dir, r'dsv')
 html_dir = os.path.join(raw_dir, r'html')
 
 #make directories
-if not os.path.exists(data_dir):
-    os.makedirs(data_dir)
-
 if not os.path.exists(raw_dir):
     os.makedirs(raw_dir)
 
@@ -159,7 +153,7 @@ def scrapeUnits():
     for index in unit_indexes.unitIdx:
         #grab html of each index page where all units are listed
         #Ie. UNITS BEGINNING WITH A, UNITS B...etc
-        raw_idx = requests.get(str(index), headers=headers).text
+        raw_idx = requests.get(str(index)).text
         soup_idx = BeautifulSoup(raw_idx, 'html.parser')
 
         #finds all individual unit html pages and scrapes them
@@ -168,7 +162,7 @@ def scrapeUnits():
                 unitCode = unit['href']
                 unitCode = unitCode.split("../../")
                 unit_url = "http://handbook.curtin.edu.au/"+unitCode[1]
-                unit_html = requests.get(unit_url, headers=headers).text
+                unit_html = requests.get(unit_url).text
                 #write each unit's html to txt file (storage)
                 f = open(html_dir+"\\"+str(i)+".html", "w")
                 f.write(unit_html)

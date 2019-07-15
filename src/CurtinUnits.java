@@ -82,9 +82,9 @@ public class CurtinUnits
         int FILES;
 
         if (os.contains("Windows"))
-            FILES = new File(dir+"\\Data\\SerializedData\\").listFiles().length;
+            FILES = new File(dir+"\\SerializedData\\").listFiles().length;
         else
-            FILES = new File(dir+"/Data/SerializedData/").listFiles().length;
+            FILES = new File(dir+"/SerializedData/").listFiles().length;
 
         for(int i = 1; i <= FILES; i++)
         {
@@ -92,9 +92,9 @@ public class CurtinUnits
             {
                 FileInputStream fi;
                 if (os.contains("Windows"))
-                    fi = new FileInputStream(new File(dir+"\\Data\\SerializedData\\"+i+".curtin"));
+                    fi = new FileInputStream(new File(dir+"\\SerializedData\\"+i+".curtin"));
                 else
-                    fi = new FileInputStream(new File(dir+"/Data/SerializedData/"+i+".curtin"));
+                    fi = new FileInputStream(new File(dir+"/SerializedData/"+i+".curtin"));
                 
                 ObjectInputStream oi = new ObjectInputStream(fi);
 
