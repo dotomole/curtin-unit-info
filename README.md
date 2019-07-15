@@ -11,6 +11,9 @@ E.g. "Object Oriented Program Design" (OOPD) is a pre-requisite of "Data Structu
 Was created through web-scraping (requests and BeautifulSoup) with Python, and Java to serialize objects and store as a database. (Can be found in src/update_database)
 
 ## Usage
-Currently no GUI, only through a terminal.
+GUI Version (Requires Java/JRE)
+>Double-click `curtin-unit-info.jar`
+
+Terminal Version (Requires Java/JRE & Java JDK)
 >Compile: `javac *.java`
 >Run: `java CurtinUnits`
