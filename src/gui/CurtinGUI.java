@@ -17,6 +17,7 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.UIManager;
 
 
 public class CurtinGUI {
@@ -29,7 +30,7 @@ public class CurtinGUI {
 	private JList list;
 	private JScrollPane scrollPane;
 	private JLabel labelClick;
-	private JLabel lblUpdatedthJuly;
+	private JLabel labelUpdate;
 
 	/**
 	 * Launch the application.
@@ -66,9 +67,14 @@ public class CurtinGUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
+		JLabel labelCredit = new JLabel("by Tom Di Pietro");
+		labelCredit.setFont(new Font("MS Reference Sans Serif", Font.PLAIN, 7));
+		labelCredit.setBounds(370, 56, 62, 16);
+		frame.getContentPane().add(labelCredit);
+		
 		JLabel labelCurtin = new JLabel("Curtin Unit Search");
-		labelCurtin.setBounds(163, 27, 278, 45);
-		labelCurtin.setFont(new Font("Britannic Bold", Font.PLAIN, 31));
+		labelCurtin.setBounds(159, 25, 278, 45);
+		labelCurtin.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 34));
 		frame.getContentPane().add(labelCurtin);
 		
 		list = new JList();
@@ -149,15 +155,10 @@ public class CurtinGUI {
 		btnSearch.setBounds(420, 85, 97, 25);
 		frame.getContentPane().add(btnSearch);
 		
-		JLabel labelCredit = new JLabel("by Tom Di Pietro");
-		labelCredit.setFont(new Font("MS Reference Sans Serif", Font.PLAIN, 7));
-		labelCredit.setBounds(359, 56, 62, 16);
-		frame.getContentPane().add(labelCredit);
-		
-		lblUpdatedthJuly = new JLabel("Updated: 16th July 2019");
-		lblUpdatedthJuly.setFont(new Font("MS Reference Sans Serif", Font.PLAIN, 10));
-		lblUpdatedthJuly.setBounds(218, 424, 165, 16);
-		frame.getContentPane().add(lblUpdatedthJuly);
+		labelUpdate = new JLabel("Updated: 16th July 2019");
+		labelUpdate.setFont(new Font("MS Reference Sans Serif", Font.PLAIN, 10));
+		labelUpdate.setBounds(218, 424, 165, 16);
+		frame.getContentPane().add(labelUpdate);
 	}
 
 	private String[] searchResults(String query)
