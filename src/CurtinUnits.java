@@ -18,7 +18,7 @@ public class CurtinUnits
         Scanner sc = new Scanner(System.in);
 
         System.out.println("-----------------------------------");
-        System.out.println("CURTIN UNIT SEARCH (Updated 8/7/19)");
+        System.out.println("CURTIN UNIT SEARCH (Updated 16/7/19)");
         System.out.println("-----------------------------------");
         System.out.print("Loading data...");
         createHashMap();
