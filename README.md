@@ -12,7 +12,7 @@ Was created through web-scraping (requests and BeautifulSoup) with Python, and J
 
 ## Usage
 GUI Version (Requires Java/JRE)
->Double-click `curtin-unit-info.jar`
+>Open `curtin-unit-info.jar`
 
 Terminal Version (Requires Java/JRE & Java JDK)
 >Compile: `javac *.java`
