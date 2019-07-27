@@ -1,14 +1,18 @@
-//dotomole - 8/7/19
+//dotomole - 27/7/19
 //Parses .dsv files into Unit objects
 //and then serializes them to create a database
+//as one file "UNITS.curtin"
 import java.io.*;
 import java.util.concurrent.TimeUnit;
 public class DsvToObj
 {
     public static void main(String[] args) 
     {
+        //Message to terminal
+        System.out.println("SERIALIZING DATABASE:");
+        long startTime = System.nanoTime();
+
         double percentage, perRd;
-        Unit unit = null;
         File serDataFold;
 
         //Directories and make serialized folder
@@ -18,6 +22,7 @@ public class DsvToObj
         String filename;
         int FILES;
 
+        //Support for different OS file paths
         if (os.contains("Windows"))
         {
             FILES = new File(dir+"\\raw\\dsv\\").listFiles().length;
@@ -35,12 +40,13 @@ public class DsvToObj
             serDataFold.mkdir();
         }
 
-        System.out.println("SERIALIZING DATABASE:");
-        long startTime = System.nanoTime();
+        //Create object array to write to file
+        Unit[] allUnits = new Unit[FILES];
 
         for(int i = 1; i <= FILES; i++)
         {
-            percentage = ((double)i/3503*100);
+            //Persistent progress percentage
+            percentage = ((double)i/FILES*100);
             perRd = (double)Math.round(percentage*1000000) / 1000000;
             System.out.print("\r"+perRd+"%");
 
@@ -72,30 +78,13 @@ public class DsvToObj
                 try
                 {
                     preLeads = unitLeads[1].replace("$", "\n");                     
-                    //System.out.println(preLeads);
                 }
-                catch (ArrayIndexOutOfBoundsException e)
-                {}
+                catch (ArrayIndexOutOfBoundsException e){}
 
-                //create units brother
-                unit = new Unit(info[0], info[1],info[3],info[5],
+                //Put all units into object array for later file write
+                allUnits[i-1] = new Unit(info[0], info[1],info[3],info[5],
                     info[7],info[9],info[11], preLeads);
-                try 
-                {
-                    //.curtin because - haha
-                    FileOutputStream f = new FileOutputStream(new File(dir+"\\SerializedData\\"+i+".curtin"));
-                    ObjectOutputStream o = new ObjectOutputStream(f);
 
-                    // Write unit object to file
-                    o.writeObject(unit);
-
-                    o.close();
-                    f.close();
-                } 
-                catch (IOException e) 
-                {
-                    System.out.println("Error initializing stream");
-                }
                 fileStrm.close(); 
             }
 
@@ -104,6 +93,24 @@ public class DsvToObj
                 System.out.println("Error initializing stream");
             }   
         }
+
+        try 
+        {
+            //.curtin because - haha
+            FileOutputStream f = new FileOutputStream(new File(dir+"\\SerializedData\\UNITS.curtin"));
+            ObjectOutputStream o = new ObjectOutputStream(f);
+
+            // Write unit object to file
+            o.writeObject(allUnits);
+            o.close();
+            f.close();
+        } 
+        catch (IOException e) 
+        {
+            System.out.println("Error initializing stream");
+        }
+
+        //Message to terminal on time taken
         long endTime = System.nanoTime();
         System.out.println("\nTIME ELAPSED: "+(endTime-startTime)/1000000000+" seconds");
     }

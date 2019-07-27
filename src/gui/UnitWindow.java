@@ -32,7 +32,7 @@ public class UnitWindow {
 		textPane.setText(foundUnit.toString());
 		
 		JScrollPane scrollPane = new JScrollPane(textPane);
-		scrollPane.setBounds(5, 7, 611, 431);
+		scrollPane.setBounds(5, 7, 611, 426);
 		contentPane.add(scrollPane);
 		frame.setVisible(true);
 	}

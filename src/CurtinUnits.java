@@ -1,10 +1,11 @@
-//dotomole - 9/7/19
+//dotomole - 27/7/19
+//Terminal version of program
 import java.io.*;
 import java.util.*;
 
 public class CurtinUnits
 {
-    //Big ol hashmap
+    //Hashmap to load into memory for program
     static HashMap<String,Unit> unitsHM = new HashMap<String,Unit>();
 
     public static void main(String[] args) 
@@ -18,7 +19,7 @@ public class CurtinUnits
         Scanner sc = new Scanner(System.in);
 
         System.out.println("-----------------------------------");
-        System.out.println("CURTIN UNIT SEARCH (Updated 16/7/19)");
+        System.out.println("CURTIN UNIT SEARCH (Updated 27/7/19)");
         System.out.println("-----------------------------------");
         System.out.print("Loading data...");
         createHashMap();
@@ -74,51 +75,53 @@ public class CurtinUnits
         }
     }
 
-    //Creates Hash map from Serialized objects
     public static void createHashMap()
     {
         String dir = System.getProperty("user.dir");
         String os = System.getProperty("os.name");
-        int FILES;
+        Unit[] allUnits;
+        int i = 0;
 
-        if (os.contains("Windows"))
-            FILES = new File(dir+"\\SerializedData\\").listFiles().length;
-        else
-            FILES = new File(dir+"/SerializedData/").listFiles().length;
-
-        for(int i = 1; i <= FILES; i++)
+        try 
         {
-            try 
+            FileInputStream fi;
+            if (os.contains("Windows"))
+                fi = new FileInputStream(new File(dir+"\\SerializedData\\UNITS.curtin"));
+            else
+                fi = new FileInputStream(new File(dir+"/SerializedData/UNITS.curtin"));
+            
+            ObjectInputStream oi = new ObjectInputStream(fi);
+
+            // Read object array
+            allUnits = (Unit[]) oi.readObject();
+
+            try
             {
-                FileInputStream fi;
-                if (os.contains("Windows"))
-                    fi = new FileInputStream(new File(dir+"\\SerializedData\\"+i+".curtin"));
-                else
-                    fi = new FileInputStream(new File(dir+"/SerializedData/"+i+".curtin"));
-                
-                ObjectInputStream oi = new ObjectInputStream(fi);
-
-                // Read objects
-                Unit unit = (Unit) oi.readObject();
-
-                //put each obj in hashmap
-                unitsHM.put(unit.getTitle(), unit);
-
-                oi.close();
-                fi.close(); 
+                while(allUnits[i] != null)
+                {
+                    //put each obj in hashmap
+                    unitsHM.put(allUnits[i].getTitle(), allUnits[i]);
+                    i++;
+                }
             }
-            catch (FileNotFoundException e) 
+            catch(ArrayIndexOutOfBoundsException e)
             {
-                System.out.println("File not found");
-            } 
-            catch (IOException e) 
-            {
-                System.out.println("Error initializing stream");
-            } 
-            catch (ClassNotFoundException e) 
-            {
-                e.printStackTrace();
+                //for some reason it was going 1 over the array index...
             }
-        }       
+            oi.close();
+            fi.close(); 
+        }
+        catch (FileNotFoundException e) 
+        {
+            System.out.println("File not found");
+        } 
+        catch (IOException e) 
+        {
+            System.out.println("Error initializing stream");
+        } 
+        catch (ClassNotFoundException e) 
+        {
+            e.printStackTrace();
+        }
     }
 }

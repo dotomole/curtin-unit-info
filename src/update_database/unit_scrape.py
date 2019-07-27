@@ -1,4 +1,4 @@
-#dotomole - 8/7/19
+#dotomole - 27/7/19
 #Html scrape, to dsv creation, all done here
 from bs4 import BeautifulSoup
 import re
@@ -144,7 +144,7 @@ def rawToDsvP2():
                 except:
                     pass
             fw.write(dsvStr)
-            sys.stdout.write("\r%f%%" % float((i/3502)*100))
+            sys.stdout.write("\r%f%%" % float((i/number_files)*100))
             sys.stdout.flush()
 
 
